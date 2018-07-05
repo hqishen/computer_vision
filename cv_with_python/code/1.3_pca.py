@@ -1,14 +1,17 @@
 #!/usr/bin/env python
 # coding=utf-8
-
+import sys
+import pickle
 from PIL import Image
 from pylab import *
 from numpy import *
-# import matplotlib.plot as plt
-from pcv import pca
-from pcv import imtools
 
-impath = "/home/sundae/workspace/computer_vision/cv_with_python/data/a_thumbs"
+sys.path.append('..')
+from pcv_tools import pca
+from pcv_tools import imtools
+
+
+impath = "/home/sundae/workspace/computer_vision/cv_with_python/source_data/a_thumbs"
 
 def _main():
     im_list = imtools.get_imlist(impath)
@@ -33,6 +36,19 @@ def _main():
         subplot(2, 4, i + 2)
         imshow(V[i].reshape(m,n))
     show();
+
+    print(immean)
+    # save result to the files
+    with open("font_pca_modes.pkg", 'wb') as f:
+        pickle.dump(immean, f)
+        pickle.dump(V, f)
+
+    ''' # load contents from file with name is .pkg
+    with open("font_pca_modes.pkg", 'rb') as f:
+        immean  = pickle.load(f)
+        V = pickle.load(f)
+    '''
+
 
 if __name__ == "__main__":
     _main()
